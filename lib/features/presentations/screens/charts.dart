@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:candlestick_chart/candlestick_chart.dart';
 import 'package:exchange/features/presentations/screens/orderbooks.dart';
+import 'package:exchange/features/presentations/widgets/days_time.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
@@ -14,15 +15,15 @@ class ChartsTab extends StatefulWidget {
 }
 
 class _ChartsTabState extends State<ChartsTab> {
-  //
-  // typedef TimeLabelGetter = String Function(int timestamp);
+
 
   String formatTimestamp(double timestamp) {
     return DateFormat('MM/dd/yyyy').format(
       DateTime.fromMicrosecondsSinceEpoch(timestamp.toInt()),
     );
   }
-
+  String selectedOption = "1D";
+  String selected = "Trading view";
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -30,81 +31,7 @@ class _ChartsTabState extends State<ChartsTab> {
       padding: EdgeInsets.symmetric(horizontal: 16),
       child: Column(
         children: [
-          Row(
-            children: [
-              Text(
-                "Time",
-                style: TextStyle(color: Theme.of(context).colorScheme.background),
-              ),
-              12.horizontalSpace,
-              Text(
-                "1H",
-                style: TextStyle(color: Theme.of(context).colorScheme.background),
-
-              ),
-              12.horizontalSpace,
-              Text(
-                "2H",
-                style: TextStyle(color: Theme.of(context).colorScheme.background),
-
-              ),
-              12.horizontalSpace,
-              Text(
-                "4H",
-                style: TextStyle(color: Theme.of(context).colorScheme.background),
-
-              ),
-              12.horizontalSpace,
-              Container(
-                  padding: EdgeInsets.all(5),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10),
-                    color: Colors.grey.withOpacity(0.5),
-                  ),
-                  child: Text(
-                    "1D",
-                    style: TextStyle(color: Theme.of(context).colorScheme.background),
-
-                  )),
-              12.horizontalSpace,
-              Text(
-                "1W",
-                style: TextStyle(color: Theme.of(context).colorScheme.background),
-
-              ),
-              12.horizontalSpace,
-              Text(
-                "1M",
-                style: TextStyle(color: Theme.of(context).colorScheme.background),
-
-              ),
-              12.horizontalSpace,
-              Icon(
-                Icons.keyboard_arrow_down,
-                color:Theme.of(context).colorScheme.background,
-                size: 17,
-              ),
-              12.horizontalSpace,
-              SizedBox(height: 25, child: VerticalDivider(
-                color:Theme.of(context).colorScheme.background,
-
-
-              )),
-              12.horizontalSpace,
-              Icon(
-                Icons.candlestick_chart_outlined,
-                color:Theme.of(context).colorScheme.background,
-
-              ),
-              12.horizontalSpace,
-              Text(
-                "Fx",
-                style: TextStyle(
-                    color:Theme.of(context).colorScheme.background,
-                    fontSize: 18,fontWeight: FontWeight.w600),
-              ),
-            ],
-          ),
+          SelectableRow(),
           10.verticalSpace,
 
           // SizedBox(h)
@@ -118,7 +45,7 @@ class _ChartsTabState extends State<ChartsTab> {
 
           Row(
             children: [
-              Container(
+               selected == "Trading view"?Container(
                   padding: EdgeInsets.all(8),
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(15),
@@ -126,9 +53,20 @@ class _ChartsTabState extends State<ChartsTab> {
                   child: Text(
                     "Trading view",
                     style: TextStyle(color: Theme.of(context).colorScheme.background),
-                  )),
+                  )):Text(
+       "Trading view",
+       style: TextStyle(color: Theme.of(context).colorScheme.background),
+     ),
               10.horizontalSpace,
-              Text(
+              selected == "Depth"?Container(
+                  padding: EdgeInsets.all(8),
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(15),
+                      color: Colors.grey.withOpacity(0.2)),
+                  child: Text(
+                    "Depth",
+                    style: TextStyle(color: Theme.of(context).colorScheme.background),
+                  )):Text(
                 "Depth",
                 style: TextStyle(color: Theme.of(context).colorScheme.background),
 
@@ -241,7 +179,7 @@ class _ChartsTabState extends State<ChartsTab> {
                 ),
                 CandlestickChart(
                   currentPrice: 9000,
-                  currentVolume: 1000,
+                  // currentVolume: 1000,
                   enableGridLines: false,
                   // timeLabel:  formatTimestamp,
                   volumeLabel: null,
